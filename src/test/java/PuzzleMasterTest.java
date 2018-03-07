@@ -2,6 +2,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -91,6 +92,49 @@ public class PuzzleMasterTest {
                 Assert.assertTrue(p.toString(), pm.puzzles.contains(p));
             }
         }
+    }
+
+    @Test
+    public void solutionsTo_simple1() {
+        final PuzzleMaster pm = createSmallInstance();
+        final Puzzle puzzle = new Puzzle(
+                Puzzle.characterVector("abrcdzy".toCharArray()),
+                Puzzle.characterVector("c".toCharArray()));
+        Assert.assertEquals(
+                new HashSet<>(Arrays.asList("abracadabrazy", "abrac", "barca")),
+                pm.solutionsTo(puzzle));
+    }
+
+    public void solutionsTo_simple2() {
+        final PuzzleMaster pm = createSmallInstance();
+        final Puzzle puzzle = new Puzzle(
+                Puzzle.characterVector("lengthd".toCharArray()),
+                Puzzle.characterVector("e".toCharArray()));
+        Assert.assertEquals(
+                new HashSet<>(Arrays.asList("lengthened", "lengthen")),
+                pm.solutionsTo(puzzle));
+    }
+
+    @Test
+    public void solutionsTo_noSolutions() {
+        final PuzzleMaster pm = createSmallInstance();
+        final Puzzle puzzle = new Puzzle(
+                Puzzle.characterVector("abcdleg".toCharArray()),
+                Puzzle.characterVector("c".toCharArray()));
+        Assert.assertEquals(Collections.emptySet(), pm.solutionsTo(puzzle));
+    }
+
+    @Test
+    public void solutionsTo_unknownLetters() {
+        final PuzzleMaster pm = createSmallInstance();
+        final Puzzle puzzle = new Puzzle(
+                Puzzle.characterVector("jkopqsu".toCharArray()),
+                Puzzle.characterVector("q".toCharArray()));
+        for (String word : pm.words) {
+            Assert.assertTrue("test data mismatch",
+                    (puzzle.potVector & Puzzle.characterVector(word.toCharArray())) == 0);
+        }
+        Assert.assertEquals(Collections.emptySet(), pm.solutionsTo(puzzle));
     }
 
 }

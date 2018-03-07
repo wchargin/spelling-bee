@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -102,6 +103,53 @@ final class PuzzleMaster {
             puzzles.add(new Puzzle(pot, required));
         }
         return puzzles;
+    }
+
+    /**
+     * <p>
+     * Find all words that can be formed in the given puzzle.
+     * </p>
+     * <p>
+     * This runs in time Θ(<i>n</i> + 2<sup><i>k</i></sup>), where <i>n</i> is the number of
+     * elements in the result set and <i>k</i> is the value of {@link Puzzle#POT_SIZE}. For
+     * practical purposes, <i>k</i> is a small constant, and the constant factors on this
+     * implementation are small enough that the performance is quite fast.
+     * </p>
+     *
+     * @param puzzle
+     *         a valid {@link Puzzle} instance
+     * @return a set of all words from this {@code PuzzleMaster}'s word list that meet the
+     * puzzle's constraints
+     */
+    Set<String> solutionsTo(Puzzle puzzle) {
+        final Set<String> solutions = new HashSet<>();
+        final int optionalVector = puzzle.potVector & ~puzzle.requiredVector;
+        addSolutions(solutions, puzzle.requiredVector, optionalVector);
+        return solutions;
+    }
+
+    /**
+     * Find all words that use all characters specified in the {@code requiredVector} and use no
+     * additional characters except for those specified in the {@code optionalVector}, and add those
+     * words to the given result set.
+     *
+     * @param result
+     *         the set into which words will be added
+     * @param requiredVector
+     *         a vector of letters that must be used
+     * @param optionalVector
+     *         a vector of additional letters that may be used
+     */
+    private void addSolutions(Set<String> result, int requiredVector, int optionalVector) {
+        if (optionalVector == 0) {
+            result.addAll(wordsByVector.getOrDefault(requiredVector, Collections.emptySet()));
+        } else {
+            final int nextOneHot = Integer.lowestOneBit(optionalVector);
+            final int expandedRequiredVector = requiredVector | nextOneHot;
+            final int nextOptionalVector = optionalVector ^ nextOneHot;
+            addSolutions(result, requiredVector, nextOptionalVector);
+            addSolutions(result, expandedRequiredVector, nextOptionalVector);
+        }
     }
 
 }
