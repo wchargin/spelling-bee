@@ -23,6 +23,23 @@
 final class Puzzle {
 
     /**
+     * The minimum number of letters that a word must have for it to be considered acceptable in
+     * this game.
+     */
+    static final int MINIMUM_WORD_LENGTH = 5;
+
+    /**
+     * The size of the "pot" of letters that the player is allowed to use to form words.
+     */
+    static final int POT_SIZE = 7;
+
+    /**
+     * The point value of a "bingo" (a word that uses every letter in the pot). A non-bingo is
+     * always worth one point.
+     */
+    static final int BINGO_SCORE = 3;
+
+    /**
      * The {@linkplain Puzzle character vector} corresponding to the set of all letters that
      * <em>may</em> be used to construct a word in this puzzle, including those that
      * <em>must</em> be used.

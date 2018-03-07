@@ -4,31 +4,31 @@ import org.junit.Test;
 public class PuzzleTest {
 
     @Test
-    public void testCharacterVector_simple1() {
+    public void characterVector_simple1() {
         Assert.assertEquals(
                 0b1011001, Puzzle.characterVector("adeg".toCharArray()));
     }
 
     @Test
-    public void testCharacterVector_simple2() {
+    public void characterVector_simple2() {
         Assert.assertEquals(
                 0b1010010001, Puzzle.characterVector("aehj".toCharArray()));
     }
 
     @Test
-    public void testCharacterVector_unsortedWithDuplicates() {
+    public void characterVector_unsortedWithDuplicates() {
         Assert.assertEquals(
                 0b1011001, Puzzle.characterVector("gagged".toCharArray()));
     }
 
     @Test
-    public void testCharacterVector_empty() {
+    public void characterVector_empty() {
         Assert.assertEquals(
                 0, Puzzle.characterVector("".toCharArray()));
     }
 
     @Test
-    public void testCharacterVector_fullAlphabet() {
+    public void characterVector_fullAlphabet() {
         final String alphabet = "abcdefghijklmnopqrstuvwxyz";
         final int expected = (1 << 26) - 1;
         Assert.assertEquals(
