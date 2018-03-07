@@ -1,6 +1,9 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class PuzzleTest {
 
     @Test
@@ -74,6 +77,23 @@ public class PuzzleTest {
                     Puzzle.characterVector(Puzzle.characterUnvector(vector).toCharArray());
             Assert.assertEquals(vector, roundtrip);
         }
+    }
+
+    @Test
+    public void testScore_emptyInput() {
+        Assert.assertEquals(0, Puzzle.score(Collections.emptySet()));
+    }
+
+    @Test
+    public void testScore_noBingos() {
+        Assert.assertEquals(5, Puzzle.score(Arrays.asList(
+                "tenet", "teeth", "legged", "length", "deleted")));
+    }
+
+    @Test
+    public void testScore_someBingos() {
+        Assert.assertEquals(8, Puzzle.score(Arrays.asList(
+                "tenet", "teeth", "legged", "length", "deleted", "lengthened")));
     }
 
 }

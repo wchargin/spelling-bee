@@ -1,3 +1,5 @@
+import java.util.Collection;
+
 /**
  * <p>
  * A Spelling Bee puzzle represented with character vectors.
@@ -125,6 +127,29 @@ final class Puzzle {
             vector ^= mask;
         }
         return new String(cs);
+    }
+
+    /**
+     * <p>
+     * Compute the score of solution to a puzzle. Each word in the solution is worth one point,
+     * unless it contains {@value #POT_SIZE} distinct letters, in which case it is worth
+     * {@value #BINGO_SCORE} points.
+     * </p>
+     * <p>
+     * Words are not checked for validity, but they must have valid
+     * {@linkplain Puzzle character vectors}, and so they must contain only characters from the
+     * lowercase Latin alphabet.
+     * </p>
+     *
+     * @param words
+     *         the set of words to score
+     * @return the integer score for the provided collection
+     */
+    static int score(Collection<String> words) {
+        return words.stream().mapToInt(w ->
+                Integer.bitCount(characterVector(w.toCharArray())) >= POT_SIZE ?
+                BINGO_SCORE : 1
+        ).sum();
     }
 
     @Override
