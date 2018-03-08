@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +48,35 @@ abstract class AbstractFrequencyAccessibilityEstimator implements AccessibilityE
                 .filter(x -> x > 0)
                 .min()
                 .orElse(1);  // arbitrary nonzero
+    }
+
+    /**
+     * Parse a word-frequencies mapping from the given input stream. The file should be a
+     * two-column CSV file, with first column the words and second column the frequencies.
+     * Whitespace-only lines and lines whose first non-whitespace character is a hash ({@code #})
+     * are ignored. Extraneous columns will be ignored.
+     *
+     * @param inputStream
+     *         the input stream from which to read
+     * @return a map {@code result} such that {@code result.get(word)} is the frequency listed
+     * for {@code word} in the input stream
+     * @throws IOException
+     *         if thrown while reading from the input stream
+     */
+    static Map<String, Double> parseFrequencies(InputStream inputStream) throws IOException {
+        return new BufferedReader(new InputStreamReader(inputStream)).lines()
+                .filter(line -> !line.trim().isEmpty() && !line.trim().startsWith("#"))
+                .map(line -> line.trim().split(","))
+                .peek(parts -> {
+                    if (parts.length < 2) {
+                        throw new IllegalArgumentException(
+                                "expected two comma-separated parts; found: " +
+                                        Arrays.toString(parts));
+                    }
+                })
+                .collect(Collectors.toMap(
+                        parts -> parts[0],
+                        parts -> Double.parseDouble(parts[1])));
     }
 
     /**
