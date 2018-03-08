@@ -1,0 +1,66 @@
+% This module is intended to typeset instances of Frank Longo's
+% ``Spelling Bee'' puzzle. It supports three puzzles to a standard
+% letter page. The syntax for a puzzle is
+%
+%     \puzzle{%
+%       required={Z},
+%       optional={A,B,C,D,E,F},
+%       good=3,
+%       excellent=5,
+%       genius=7,
+%     }
+%
+% The 'optional' key should have exactly six letters, all capitalized.
+%
+% Between puzzles on a page, insert the '\nextpuzzle' macro. At the end
+% of a page, simply use '\clearpage'. It is intended that there not be
+% any other content in the main body of a sheet of puzzles.
+%
+\ProvidesPackage{spellingbee}
+
+\RequirePackage{parskip}
+\RequirePackage[left=1in, right=1in, top=1.25in, bottom=1.25in]{geometry}
+
+\RequirePackage{libertine}
+
+\RequirePackage{pgfkeys}
+\RequirePackage{tikz}
+
+\pgfkeys{%
+  /spelling bee/.is family, /spelling bee,
+  required/.estore in = \@sb@required,
+  optional/.estore in = \@sb@optional,
+  good/.estore in = \@sb@good,
+  excellent/.estore in = \@sb@excellent,
+  genius/.estore in = \@sb@genius,
+}
+
+\newcommand*\puzzle[1]{%
+  \pgfkeys{/spelling bee,#1}%
+  \begin{minipage}{2.75in}
+    \centering
+    {
+      \small
+      \@sb@good\ = good /
+      \@sb@excellent\ = excellent /
+      \@sb@genius\ = genius
+    }
+    \vskip8pt
+    \begin{tikzpicture}[
+      thick,
+      letter/.style={font={\sffamily\bfseries\LARGE}},
+    ]
+      \def\innerRadius{0.5in}
+      \def\outerRadius{1.0in}
+      \foreach[count=\i from 0, evaluate=\i as \theta using {120-60*\i}] \x in \@sb@optional {%
+        \draw (\theta:\innerRadius) -- ({\theta+60}:\innerRadius);
+        \draw (\theta:\innerRadius) -- (\theta:\outerRadius);
+        \node [letter] at ({\theta-30}:{\outerRadius - \innerRadius * 0.55}) {\x};
+      }
+      \node [letter] {\@sb@required};
+      \draw (0, 0) circle [radius=\outerRadius];
+    \end{tikzpicture}
+  \end{minipage}
+}
+
+\newcommand*\nextpuzzle{\vfill\hrule\vfill}

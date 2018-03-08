@@ -1,0 +1,36 @@
+% Sample sheet of Spelling Bee puzzles.
+% This document demonstrates the API for the 'spellingbee.sty' package,
+% also included in this directory.
+
+\documentclass[12pt]{article}
+
+\usepackage{spellingbee}
+
+\begin{document}
+
+\puzzle{%
+  required=Z,
+  optional={A,B,C,D,E,F},
+  good=9,
+  excellent=15,
+  genius=21,
+}
+\nextpuzzle
+\puzzle{%
+  required=Y,
+  optional={G,H,I,J,K,L},
+  good=8,
+  excellent=13,
+  genius=18,
+}
+\nextpuzzle
+\puzzle{%
+  required=X,
+  optional={M,N,O,P,Q,R},
+  good=7,
+  excellent=11,
+  genius=15,
+}
+\clearpage
+
+\end{document}

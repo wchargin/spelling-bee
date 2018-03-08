@@ -1,2 +1,7 @@
 /out/
 /build/
+
+/tex/*.aux
+/tex/*.out
+/tex/*.log
+/tex/*.pdf
