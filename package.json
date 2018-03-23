@@ -6,6 +6,7 @@
   "author": "William Chargin <wchargin@gmail.com>",
   "license": "MIT",
   "private": true,
+  "homepage": "https://wchargin.github.io/spelling-bee",
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
