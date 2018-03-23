@@ -1,7 +1,7 @@
 // @flow
 
 import type {CharVec} from "./charvec";
-import {stringToVector} from "./charvec";
+import {stringToVector, vectorToString} from "./charvec";
 import PuzzleMaster from "./puzzleMaster";
 
 describe("PuzzleMaster", () => {
@@ -73,6 +73,67 @@ describe("PuzzleMaster", () => {
           sorted(really(expected.get(key)))
         );
       }
+    });
+  });
+
+  describe("#solve", () => {
+    it("solves a simple puzzle", () => {
+      const instance = new PuzzleMaster(words());
+      const puzzle = {
+        required: stringToVector("c"),
+        optional: stringToVector("abrdzy"),
+      };
+      const actual = instance.solutionsTo(puzzle);
+      const expected = new Set(["abracadabrazy", "abrac", "barca"]);
+      expect(actual).toEqual(expected);
+    });
+
+    it("solves another simple puzzle", () => {
+      const instance = new PuzzleMaster(words());
+      const puzzle = {
+        required: stringToVector("e"),
+        optional: stringToVector("lngthd"),
+      };
+      const actual = instance.solutionsTo(puzzle);
+      const expected = new Set(["lengthened", "lengthen"]);
+      expect(actual).toEqual(expected);
+    });
+
+    it("solves a puzzle with no solutions", () => {
+      const instance = new PuzzleMaster(words());
+      const puzzle = {
+        required: stringToVector("c"),
+        optional: stringToVector("abdleg"),
+      };
+      const actual = instance.solutionsTo(puzzle);
+      const expected = new Set([]);
+      expect(actual).toEqual(expected);
+    });
+
+    it("solves a puzzle with never-before-seen letters", () => {
+      const instance = new PuzzleMaster(words());
+      const puzzle = {
+        required: stringToVector("q"),
+        optional: stringToVector("jkouwx"),
+      };
+
+      // Self-check...
+      {
+        const pot = puzzle.required | puzzle.optional;
+        for (const word of words()) {
+          const overlap = stringToVector(word) & pot;
+          if (overlap) {
+            const overlapString = vectorToString(overlap);
+            throw new Error(
+              `word "${word}" contains forbidden letters: "${overlapString}"`
+            );
+          }
+        }
+      }
+
+      const actual = instance.solutionsTo(puzzle);
+      const expected = new Set([]);
+      expect(actual).toEqual(expected);
     });
   });
 });
