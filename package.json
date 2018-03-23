@@ -12,12 +12,20 @@
     "react-scripts": "1.1.1"
   },
   "scripts": {
+    "precommit": "lint-staged",
+    "lint-staged": "lint-staged",
+    "check-pretty": "prettier --list-different '**/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "lint-staged": {
+    "**/*.js": "prettier --list-different"
+  },
   "devDependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.0",
     "prettier": "^1.11.1"
   }
 }
