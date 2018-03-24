@@ -48,6 +48,10 @@ export default class SolutionViewer extends React.Component<Props, State> {
               <label>
                 Required letter(s):{" "}
                 <input
+                  autocomplete="off"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  spellCheck={false}
                   value={this.state.required}
                   onChange={(e) => {
                     this.setState({
@@ -63,6 +67,10 @@ export default class SolutionViewer extends React.Component<Props, State> {
               <label>
                 Optional letter(s):{" "}
                 <input
+                  autocomplete="off"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  spellCheck={false}
                   value={this.state.optional}
                   onChange={(e) => {
                     this.setState({
