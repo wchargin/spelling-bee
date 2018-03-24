@@ -19,6 +19,8 @@
     "check-pretty": "prettier --list-different '**/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "flow-bin": "^0.68.0",
+    "gh-pages": "^1.1.0",
     "husky": "^0.14.3",
     "jest": "^21.1.0",
     "lint-staged": "^7.0.0",
