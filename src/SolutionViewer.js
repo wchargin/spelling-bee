@@ -111,9 +111,29 @@ export default class SolutionViewer extends React.Component<Props, State> {
       }
       return x > y ? 1 : x < y ? -1 : 0;
     }
+
     function score(x: string) {
       return popcnt(stringToVector(x)) >= POT_SIZE ? BINGO_SCORE : 1;
     }
+
+    function solutionEntry(word: string) {
+      const name = score(word) > 1 ? <strong>{word}</strong> : word;
+      const definitionLink = (
+        <a
+          href={`https://www.thefreedictionary.com/${word}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {name}
+        </a>
+      );
+      return (
+        <li key={word}>
+          {definitionLink} ({score(word)})
+        </li>
+      );
+    }
+
     const totalScore = solutions
       .map((x) => score(x))
       .reduce((x, y) => x + y, 0);
@@ -126,11 +146,7 @@ export default class SolutionViewer extends React.Component<Props, State> {
           <p>No valid solutions.</p>
         )}
         <ul style={{lineHeight: 1.2}}>
-          {solutions.sort(cmp).map((x) => (
-            <li key={x}>
-              {score(x) > 1 ? <strong>{x}</strong> : x} ({score(x)})
-            </li>
-          ))}
+          {solutions.sort(cmp).map((word) => solutionEntry(word))}
         </ul>
         <p>Total score: {totalScore}.</p>
       </div>
