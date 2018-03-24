@@ -4,6 +4,7 @@ import React from "react";
 
 import type {WordData} from "./wordData";
 import standardWordLists from "./standardWordLists";
+import SolutionViewer from "./SolutionViewer";
 import WordListManager from "./WordListManager";
 import WordInspector from "./WordInspector";
 
@@ -33,6 +34,7 @@ export default class App extends React.Component<{}, State> {
           }}
         />
         <WordInspector wordData={this.state.wordData} />
+        <SolutionViewer wordData={this.state.wordData} />
       </div>
     );
   }
