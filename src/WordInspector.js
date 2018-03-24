@@ -135,9 +135,11 @@ export default class WordInspector extends React.Component<Props, State> {
         );
       }
     }
-    return <div>
-      <p>Results:</p>
-      <ul>{elements}</ul>
-    </div>;
+    return (
+      <div>
+        <p>Results:</p>
+        <ul>{elements}</ul>
+      </div>
+    );
   }
 }
