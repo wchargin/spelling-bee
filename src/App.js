@@ -5,6 +5,7 @@ import React from "react";
 import type {WordData} from "./wordData";
 import standardWordLists from "./standardWordLists";
 import WordListManager from "./WordListManager";
+import WordInspector from "./WordInspector";
 
 type State = {|
   wordData: ?WordData,
@@ -31,6 +32,7 @@ export default class App extends React.Component<{}, State> {
             this.setState({wordData});
           }}
         />
+        <WordInspector wordData={this.state.wordData} />
       </div>
     );
   }
